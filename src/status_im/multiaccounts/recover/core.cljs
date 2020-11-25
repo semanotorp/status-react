@@ -14,11 +14,11 @@
             [status-im.utils.fx :as fx]
             [status-im.utils.security :as security]
             [status-im.utils.types :as types]
-            [status-im.utils.platform :as platform]
             [status-im.utils.utils :as utils]
             [status-im.bottom-sheet.core :as bottom-sheet]
-            [taoensso.timbre :as log]
-            [status-im.utils.config :as config]))
+            [status-im.utils.config :as config]
+            [status-im.ui.components.bottom-sheet.core :as bottom-sheet]
+            [taoensso.timbre :as log]))
 
 (defn existing-account?
   [multiaccounts key-uid]
@@ -234,9 +234,7 @@
                          assoc :step :select-key-storage
                          :forward-action :multiaccounts.recover/select-storage-next-pressed
                          :selected-storage-type :default)}
-            (if (and (or platform/android?
-                         config/keycard-test-menu-enabled?)
-                     (nfc/nfc-supported?))
+            (if (nfc/nfc-supported?)
               (navigation/navigate-to-cofx :recover-multiaccount-select-storage nil)
               (select-storage-next-pressed))))
 
