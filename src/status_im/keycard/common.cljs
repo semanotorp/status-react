@@ -406,7 +406,7 @@
                              :import-multiaccount []
                              :error-label         :t/pin-mismatch))}
          (hide-connection-sheet)
-         (if (zero? pin-retries-count) (frozen-keycard-popup))
+         (when (zero? pin-retries-count) (frozen-keycard-popup))
          (when (= flow :import)
            (navigation/navigate-to-cofx :keycard-recovery-pin nil)))
         (show-wrong-keycard-alert true)))))
