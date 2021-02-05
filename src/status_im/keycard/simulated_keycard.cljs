@@ -70,6 +70,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn start-nfc [{:keys [on-success]}]
+  (when (get @state :card-connected?) (connect-card))
   (later #(on-success true)))
 
 (defn stop-nfc [{:keys [on-success]}]
