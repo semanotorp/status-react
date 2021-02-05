@@ -210,7 +210,7 @@
                                       :error-label :t/pin-mismatch)
                            (assoc-in [:signing/sign :keycard-step] :pin))}
                   (common/hide-connection-sheet)
-                  (if (zero? pin-retries) (common/frozen-keycard-popup)))
+                  (when (zero? pin-retries) (common/frozen-keycard-popup)))
 
         (fx/merge cofx
                   (common/hide-connection-sheet)

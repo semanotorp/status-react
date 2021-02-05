@@ -30,7 +30,7 @@
                                         :export-key   []
                                         :error-label  :t/pin-mismatch))}
                     (common/hide-connection-sheet)
-                    (if (zero? pin-retries) (common/frozen-keycard-popup)))
+                    (when (zero? pin-retries) (common/frozen-keycard-popup)))
           :else
           (fx/merge cofx
                     (common/show-wrong-keycard-alert true)

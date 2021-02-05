@@ -18,8 +18,7 @@
 (def pin-mismatch-error #"Unexpected error SW, 0x63C(\d+)|wrongPIN\(retryCounter: (\d+)\)")
 
 (defn pin-retries [error]
-  (let [matched-error (re-matches pin-mismatch-error error)]
-    (when matched-error (js/parseInt (second (filter some? matched-error))))))
+  (when-let [matched-error (re-matches pin-mismatch-error error)] (js/parseInt (second (filter some? matched-error)))))
 
 (fx/defn dispatch-event
   [_ event]
@@ -396,7 +395,7 @@
         pin-retries-count   (pin-retries (:error error))]
     (if tag-was-lost?
       {:db (assoc-in db [:keycard :pin :status] nil)}
-      (if (not (nil? pin-retries-count))
+      (if-not (nil? pin-retries-count)
         (fx/merge
          cofx
          {:db (-> db
