@@ -135,18 +135,19 @@
   (let [pairing   (common/get-pairing db)
         reset-pin (get-in db [:keycard :pin :reset])]
     (fx/merge cofx
-              {:keycard/get-application-info
-               {:pairing pairing}
-
-               :db
-               (update-in db [:keycard :pin] merge
-                          {:status       :after-unblocking
-                           :enter-step   :login
-                           :login        reset-pin
-                           :confirmation []
-                           :puk          []
-                           :puk-restore? true
-                           :error-label  nil})}
+              {:db
+               (-> db
+                   (update-in [:keycard :application-info] assoc
+                              :puk-retry-counter 5
+                              :pin-retry-counter 3)
+                   (update-in [:keycard :pin] assoc
+                              :status       :after-unblocking
+                              :enter-step   :login
+                              :login        reset-pin
+                              :confirmation []
+                              :puk          []
+                              :puk-restore? true
+                              :error-label  nil))}
               (common/hide-connection-sheet)
               (common/clear-on-card-connected)
               (common/clear-on-card-read))))
