@@ -16,7 +16,6 @@
             [status-im.utils.types :as types]
             [status-im.utils.utils :as utils]
             [status-im.bottom-sheet.core :as bottom-sheet]
-            [status-im.utils.config :as config]
             [status-im.ui.components.bottom-sheet.core :as bottom-sheet]
             [taoensso.timbre :as log]))
 
